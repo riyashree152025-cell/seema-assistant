@@ -27,7 +27,8 @@ object SeemaAgent {
     private const val TAG = "SeemaAgent"
     private const val APP_NAME = "Seema"
     private const val USER_ID = "owner"
-    private const val MODEL_NAME = "gemini-flash-latest"
+    /** From local.properties (SEEMA_GEMINI_MODEL); defaults to gemini-flash-latest. */
+    private val MODEL_NAME = BuildConfig.SEEMA_GEMINI_MODEL
 
     private val SYSTEM_PROMPT = """
         You are SEEMA, a personal AI assistant living on your owner's Android phone, inspired by JARVIS.
@@ -179,6 +180,12 @@ object SeemaAgent {
             }
         }
     }
+
+    /** True when [reply] is Gemini refusing because the API key's quota (free tier: per day) is used up. */
+    fun isQuotaError(reply: String): Boolean =
+        reply.startsWith("ERROR:") && QUOTA_MARKERS.any { reply.contains(it, ignoreCase = true) }
+
+    private val QUOTA_MARKERS = listOf("RESOURCE_EXHAUSTED", "429", "quota", "rate limit")
 
     /** Starts a fresh conversation with no memory of earlier turns. */
     fun resetConversation() {

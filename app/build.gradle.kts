@@ -31,6 +31,12 @@ android {
             "GEMINI_API_KEY",
             "\"${localProps.getProperty("GEMINI_API_KEY", "")}\""
         )
+        // Gemini model; switch it in local.properties if one model's free daily quota runs out.
+        buildConfigField(
+            "String",
+            "SEEMA_GEMINI_MODEL",
+            "\"${localProps.getProperty("SEEMA_GEMINI_MODEL", "gemini-flash-latest")}\""
+        )
         buildConfigField(
             "String",
             "SEEMA_HOME_CITY",

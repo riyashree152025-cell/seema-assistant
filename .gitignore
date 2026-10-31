@@ -14,6 +14,9 @@ captures/
 .externalNativeBuild/
 .cxx/
 
+# JVM heap dumps (written when a Gradle/Kotlin daemon runs out of memory; can be GBs)
+*.hprof
+
 # Signing keys
 *.jks
 *.keystore

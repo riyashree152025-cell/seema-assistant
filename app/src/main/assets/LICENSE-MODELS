@@ -14,9 +14,15 @@ Original TensorFlow model: Copyright Google LLC
 ONNX conversion: Copyright (c) 2022-2024 David Scripka (OpenWakeWord Project)
 Licensed under the Apache License, Version 2.0
 
-3. hello_world.onnx
--------------------
-[INSERT YOUR MODEL'S LICENSE INFORMATION HERE]
+3. hey_jarvis_v0.1.onnx
+-----------------------
+Pre-trained "hey jarvis" wake word model from the openWakeWord project
+(https://github.com/dscripka/openWakeWord, release v0.5.1).
+Copyright (c) David Scripka. Licensed under Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0):
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+Used here as the fallback wake word until a custom seema.onnx is added.
+Non-commercial use only.
 
 ================================================================================
 

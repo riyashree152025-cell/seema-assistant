@@ -53,6 +53,8 @@ class SeemaVoiceService : Service() {
 
     @Volatile private var engine: WakeWordEngine? = null
     @Volatile private var listeningSince = 0L
+    /** True when no wake word model is installed; SEEMA then works through TALK, tile and widget. */
+    @Volatile private var wakeWordUnavailable = false
     private var engineInitJob: Job? = null
     private var restartJob: Job? = null
     @Volatile private var wakeWordJob: Job? = null
@@ -188,7 +190,15 @@ class SeemaVoiceService : Service() {
     }
 
     private fun startListening() {
-        val current = engine ?: return
+        val current = engine
+        if (current == null) {
+            // No wake word model: stay usable through TALK, the tile, the widget and the headset button.
+            if (wakeWordUnavailable) {
+                SeemaState.update(AgentState.LISTENING)
+                updateNotification("Wake word off · tap TALK to speak")
+            }
+            return
+        }
         try {
             current.start()
             listeningSince = SystemClock.elapsedRealtime()
@@ -230,7 +240,14 @@ class SeemaVoiceService : Service() {
 
         val model = WAKE_WORD_MODELS.firstOrNull { it in available }
         if (model == null) {
-            reportFatal("Missing in assets: ${WAKE_WORD_MODELS.first()}")
+            // Not fatal: everything except the spoken wake word still works.
+            Log.w(TAG, "No wake word model in assets")
+            wakeWordUnavailable = true
+            SeemaState.setResponse(
+                "Wake word off: add seema.onnx or hey_jarvis_v0.1.onnx to app/src/main/assets. " +
+                    "Until then, tap TALK."
+            )
+            startListening()
             return null
         }
         if (model != WAKE_WORD_MODELS.first()) {

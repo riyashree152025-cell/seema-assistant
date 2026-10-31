@@ -17,9 +17,9 @@ Personal use only — not intended for the Play Store.
    # optional fallback city for weather
    SEEMA_HOME_CITY=Patna
    ```
-3. Put your wake-word model in `app/src/main/assets/`: `seema.onnx` (trained with the
-   openWakeWord Colab) or `hey_jarvis_v0.1.onnx` for testing. `melspectrogram.onnx` and
-   `embedding_model.onnx` are already included (Apache 2.0, see `LICENSE-MODELS`).
+3. Wake word: `hey_jarvis_v0.1.onnx` is included, so "Hey Jarvis" works out of the box.
+   For "Seema", train `seema.onnx` with the openWakeWord Colab and put it in
+   `app/src/main/assets/`; it takes priority automatically. See `LICENSE-MODELS`.
 4. Build, install, and grant the permissions the app asks for.
 
 ## Requirements
